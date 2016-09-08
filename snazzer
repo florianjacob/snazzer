@@ -562,9 +562,10 @@ do_mountpoint() {
     if [ "$MOUNTPOINT" != "/" ]; then
         MOUNTPOINT=$(echo "$MOUNTPOINT" | sed 's|/$||g')
     fi
-    do_multiple "$DO_ACTION" "$MOUNTPOINT"
+    # exclude the mountpoint itself from snapshotting
+    # do_multiple "$DO_ACTION" "$MOUNTPOINT"
+    # report_snapshot_dirs "$MOUNTPOINT" >> "$TMP_DIRS"
     report_subvols_excluded "$MOUNTPOINT" >> "$TMP_EXCL"
-    report_snapshot_dirs "$MOUNTPOINT" >> "$TMP_DIRS"
     assert_mountpoint "$MOUNTPOINT"
     list_subvolumes "$MOUNTPOINT" | {
         while read SUBVOL; do
